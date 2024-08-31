@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temporizador</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+
+        #timer {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        #resetButton {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #resetButton:hover {
+            background-color: darkred;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="timer">02:00</div>
+    <button id="resetButton">Reiniciar Temporizador</button>
+
+    <script>
+        let countdown;
+        let timeLeft = 120; // 120 segundos = 2 minutos
+
+        const timerDisplay = document.getElementById('timer');
+        const resetButton = document.getElementById('resetButton');
+
+        // Función para mostrar el tiempo en el formato mm:ss
+        function displayTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainderSeconds = seconds % 60;
+            const display = `${minutes < 10 ? '0' : ''}${minutes}:${remainderSeconds < 10 ? '0' : ''}${remainderSeconds}`;
+            timerDisplay.textContent = display;
+        }
+
+        // Función para comenzar la cuenta regresiva
+        function startTimer() {
+            countdown = setInterval(() => {
+                timeLeft--;
+                displayTime(timeLeft);
+                if (timeLeft <= 0) {
+                    clearInterval(countdown);
+                }
+            }, 1000);
+        }
+
+        // Función para reiniciar el temporizador
+        function resetTimer() {
+            clearInterval(countdown); // Detiene el temporizador actual
+            timeLeft = 120; // Restablece a 2 minutos
+            displayTime(timeLeft); // Actualiza el display
+            startTimer(); // Comienza de nuevo
+        }
+
+        // Inicia el temporizador cuando se carga la página
+        startTimer();
+
+        // Agregar un evento al botón para reiniciar el temporizador
+        resetButton.addEventListener('click', resetTimer);
+    </script>
+
+</body>
+</html>
